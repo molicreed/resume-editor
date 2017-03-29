@@ -17,17 +17,23 @@
   import Topbar from './components/Topbar'
   import ResumeEditor from './components/ResumeEditor'
   import ResumePreview from './components/ResumePreview'
+  import icons from './assets/icons'
 
 export default {
   name: 'app',
   data: function () {
-    return {text: 'Hello'}
+    return {
+      text: 'Hello'
+    }
   },
-  components: { Topbar, ResumeEditor, ResumePreview }
+  components: { Topbar, ResumeEditor, ResumePreview },
+  created(){
+    document.body.insertAdjacentHTML('afterbegin', icons);
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
 .page {
   min-width: 1024px;
   max-width: 1440px;
@@ -36,15 +42,16 @@ export default {
   flex-direction: column;
   background: #EAEBEC;
   margin: 0 auto;
+  >main{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    flex-grow: 1;
+  }
 }
-.page>main{
-  margin-top: 16px;
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-  flex-grow: 1;
-}
+
 #resumeEditor {
   width: 35%;
   background: #444;
@@ -53,5 +60,12 @@ export default {
   flex-grow: 1;
   margin-left: 16px;
   background: #777;
+}
+svg.icon {
+  height: 1em;
+  width: 1em;
+  fill: currentColor;
+  vertical-align: -0.1em;
+  font-size: 16px;
 }
 </style>
