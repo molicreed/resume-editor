@@ -1,30 +1,27 @@
 <template>
     <div id="resumeEditor">
         <ol class="nav">
-            <li v-for="(item,index) in resume"
-                :class="{active: index === selected}"
-                @click="selected = index">
+            <li v-for="item in config"
+                :class="{active: item.field === selected}"
+                @click="selected=item.field">
                 <svg class="icon">
                     <use :xlink:href="`#icon-${item.icon}`"></use>
                 </svg>
             </li>
         </ol>
         <ol class="panels">
-            <li v-for="(item,index) in resume"
-                v-show="index === selected">
-                <div v-if="item.items instanceof Array">
-                    <div class="subitem" v-for="subitem in item.items">
-                        <div class="resumeField" v-for="(value,key) in subitem">
-                            <label for="">{{key}}</label>
-                            <input type="text" :value="value">
-                        </div>
-                        <hr>
-                    </div>
+            <li v-for="(item,tab) in resume"
+                v-show="tab === selected">
+                <div class="subitem" v-for="(subitem,subTab) in item">
+                    <hr v-show="subTab !== 0">
+                    <div class="resumeField" v-for="(value,key) in subitem">
+                        <label for="">{{key}}</label>
+                        <input type="text" :value="value" 
+                            @input="changeResumeField([tab,subTab,key],$event.target.value)">
+                    </div> 
                 </div>
-                <div v-else class="resumeField" v-for="(value,key) in item.items">
-                    <label> {{key}} </label>
-                    <input type="text" :value="value">
-                </div>
+                <a href="#" class="button" v-show="tab!=='profile'"@click.prevent="addResume(item,tab)">增加</a>
+                <a href="#" class="button" v-show="tab!=='profile'&&item.length>1"@click.prevent="delResume(item,tab)">删除</a>
             </li>
         </ol>
     </div>
@@ -33,58 +30,34 @@
 <script>
 export default {
     name: 'ResumeEditor',
-    data(){
-        return {
-            selected: 'profile',
-            // config: [
-            //     { field: 'profile', icon: 'id' },
-            //     { field: 'workHistory', icon: 'work'},
-            //     { field: 'education', icon: 'book' },
-            //     { field: 'projects', icon: 'heart' },
-            //     { field: 'awards', icon: 'cup' },
-            //     { field: 'contacts', icon: 'phone' }
-            // ],
-            resume: {
-                profile: {
-                    icon: 'id',
-                    items: {
-                        name: '张三',
-                        city: '',
-                        title: ''
-                    }
-                },
-                workHistory: {
-                    icon: 'work',
-                    items:[
-                        {company: 'AL', content: 'My First Job'},
-                        {company: 'TX', content: 'My Second Job'}
-                    ]
-                },
-                education: { 
-                    icon: 'book',
-                    items:{
-
-                    }
-                },
-                projects: { 
-                    icon: 'heart',
-                    items:{
-
-                    }
-                },
-                awards: { 
-                    icon: 'cup',
-                    items: {
-
-                    }
-                },
-                contacts: { 
-                    icon: 'contacts', 
-                    items:{
-
-                    }
-                },
+    computed: {
+        selected: {
+            get(){
+                return this.$store.state.selected
+            },
+            set(val){
+                this.$store.commit('switchTab',val)
             }
+        },
+        resume (){
+            return this.$store.state.resume
+        },
+        config(){
+            return this.$store.state.config
+        }
+    },
+    methods: {
+        changeResumeField(path, value){
+            this.$store.commit('updateResume',{
+                path,
+                value
+            })
+        },
+        addResume(item,tab){
+            this.$store.commit('addData',{item,tab})
+        },
+        delResume(item,tab){
+            this.$store.commit('delData',{item,tab})
         }
     }
 }
