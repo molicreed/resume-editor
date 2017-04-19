@@ -31,16 +31,11 @@ export default {
   components: { Topbar, ResumeEditor, ResumePreview },
   created(){
     document.body.insertAdjacentHTML('afterbegin', icons);
-    // let state = localStorage.getItem('state');
-    // if (state){
-    //   state = JSON.parse(state);
-    // }
     if (AV.User.current()){
-      this.$store.commit('setUser',getAVUser());
+      this.$store.dispatch('setUser',getAVUser());
     } else {
       this.$store.commit('initState');
     }
-    //this.$store.commit('initState',{});
     
   }
 }

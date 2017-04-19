@@ -1,18 +1,16 @@
 <template>
     <div id="topbar">
         <div class="wrapper">
-            <span class="logo">Resumer</span>
-            <div class="actions">
-                <div v-if="logined" class="userActions" >
-                    <span class="welcome">Hello! {{user.username}}</span>
-                    <a href="#" class="button"
-                        @click.prevent="signOut">登出</a>
-                </div>
-                <div v-else class="userActions" >
-                    <a href="#" class="button primary" @click.prevent="signUpDialogVisible = true">注册</a>
-                    <a class="button" @click.prevent="signInDialogVisible = true" href="#" >登录</a> 
-                </div> 
+            <div v-if="logined" class="userActions" >
+                <span class="welcome">Hello! {{user.username}}</span>
+                <a href="#" class="button"
+                    @click.prevent="signOut">登出</a>
             </div>
+            <div v-else class="userActions" >
+                <span class="logo">在线简历编辑器</span>
+                <a href="#" class="button primary" @click.prevent="signUpDialogVisible = true">注册</a>
+                <a class="button" @click.prevent="signInDialogVisible = true" href="#" >登录</a> 
+            </div> 
         </div>
         <MyDialog title="注册" 
             :visible="signUpDialogVisible" 
@@ -46,26 +44,26 @@ export default {
             return this.$store.state.user;
         },
         logined(){
-            return this.user.id;
+            return this.$store.state.user.id;
         }
     },
     components: { MyDialog,SignUpForm,SignInForm },
     methods: {
         signIn(user){
-            this.$store.commit('setUser',user);
+            this.$store.dispatch('setUser',user);
             this.signUpDialogVisible = false;
             this.signInDialogVisible = false;
         },
         signOut(user){
             AV.User.logOut();
-            this.$store.commit('removeUser');
+            this.$store.dispatch('removeAll');
         }
     }
 }
 </script>
 
 <style lang="scss">
-    #topbar{
+    #topbar {
     background: #fff;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
 
@@ -75,20 +73,15 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 16px;
-
-        .logo {
-            font-size: 24px;
-            color: #000;
-        }
-        .actions {
+        padding: 0 16px; 
+        .userActions {
             display: flex;
-            .userActions{
-                .welcome {
-                    margin-right: .5em;
-                }
+            .welcome, .logo {
+                margin-right: 1em;
+                font-size: 24px;
+                color: #000;
             }
-            .button{
+            .button {
                 width: 72px;
                 height: 32px;
                 border: none;
@@ -101,6 +94,7 @@ export default {
                 justify-content: center;
                 align-items: center;
                 vertical-align: middle;
+                margin-right: .5em;
                 &:hover {
                     box-shadow: 1px 1px 1px hsla(0, 0, 0, 0.50);
                 }

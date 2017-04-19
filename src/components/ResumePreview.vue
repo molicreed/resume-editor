@@ -22,7 +22,7 @@
         <section data-name="education" v-show="resume.education.length>0">
             <h2>毕业院校</h2>
             <ol>
-                <li v-for="item in resume.education" v-show="item.school !== ''">
+                <li v-for="item in resume.education" v-show="item.school!==''">
                     <h3 v-show="item.school">{{item.school}}</h3>
                     <p v-show="item.content"> - {{item.details}}</p>
                 </li>
@@ -64,11 +64,8 @@ export default {
     name: 'ResumePreview',
     computed: {
         resume(){
-            return this.$store.state.resume
+            return this.$store.state.resume;
         }
-    },
-    created(){
-        console.log('ResumePreview created');
     }
 }
 </script>

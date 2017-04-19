@@ -33,7 +33,7 @@
                 errorMessage: ''
             }
         },
-        created: {
+        created: ()=>{
 
         },
         methods: {

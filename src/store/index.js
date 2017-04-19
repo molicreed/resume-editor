@@ -51,8 +51,41 @@ export default new Vuex.Store({
             // ]
         }
     },
+    actions: {
+        update({state,commit},{path,value}){
+            commit('updateResume',{path,value})
+            if (state.user.id) {
+                saveStorage(state.resume, state.user.objectId)
+                    .then((val)=>{
+                        commit('setObjId',val.id);
+                        console.log('Success! ObjectId is',val.id)
+                    });
+            }
+        },
+        setUser(context,user){
+            console.log(user);
+            getStorage().then(({content,objId})=>{
+                console.log(content,objId);  
+                user.objectId = objId;
+                context.commit('SET',{user,content});
+            },()=>{
+                context.commit('SET',{user});
+                context.commit('initState');
+            })
+        },
+        removeAll(context){
+            let user = {
+                id: '',
+                username: '',
+                objectId: ''
+            }
+            context.commit('initState');
+            context.commit('SET',{user});
+        }
+    },
     mutations: {
         initState (state){
+            state.resume = {};
             state.config.map((item)=>{
                 Vue.set(state.resume, item.field, [{}]);
                 item.keys.map((key)=>{
@@ -71,55 +104,24 @@ export default new Vuex.Store({
                 }
             })
         },
+        setObjId(state,objId){
+            state.user.objectId = objId;
+        },
         delData (state,{item,tab}){
             item.pop();
         },
         switchTab (state,val){
             state.selected = val;
-            // localStorage.setItem('state',JSON.stringify(state));
+        },
+        SET(state,{user,content}){
+            state.user = user;
+            if (content) {
+                state.resume = content;
+            }
+            
         },
         updateResume(state,{path,value}){
             objectPath.set(state.resume, path, value);
-            // localStorage.setItem('state',JSON.stringify(state));
-            if (state.user.id) {
-                saveStorage(state.resume, state.user.objectId)
-                    .then((val)=>{
-                        state.user.objectId = val.id;
-                        console.log('Success! ObjectId is',val.id)
-                    });
-            }
-        },
-        setUser(state,{id,username}){
-            state.user.id = id;
-            state.user.username = username;
-            getStorage().then(({content,objId})=>{
-                console.log(content,objId);
-                state.resume = content;
-                state.user.objectId = objId;
-            },()=>{
-                state.config.map((item)=>{
-                    Vue.set(state.resume, item.field, [{}]);
-                    item.keys.map((key)=>{
-                        Vue.set(state.resume[item.field][0],key,'');
-                    });
-                })
-            })
-        },
-        removeUser(state){
-            state.user =  {
-                id: '',
-                username: '',
-                objectId: ''
-            };
-            for (let key in state.resume){
-                Vue.delete(state.resume,key);
-            }
-            state.config.map((item)=>{
-                Vue.set(state.resume, item.field, [{}]);
-                item.keys.map((key)=>{
-                    Vue.set(state.resume[item.field][0],key,'');
-                });
-            });
         }
     }
 })

@@ -15,13 +15,13 @@
                 <div class="subitem" v-for="(subitem,subTab) in item">
                     <hr v-show="subTab !== 0">
                     <div class="resumeField" v-for="(value,key) in subitem">
-                        <label for="">{{key}}</label>
+                        <label for="" >{{names[tab][key]}}</label>
                         <input type="text" :value="value" 
                             @input="changeResumeField([tab,subTab,key],$event.target.value)">
                     </div> 
                 </div>
                 <a href="#" class="button" v-show="tab!=='profile'"@click.prevent="addResume(item,tab)">增加</a>
-                <a href="#" class="button" v-show="tab!=='profile'&&item.length>1"@click.prevent="delResume(item,tab)">删除</a>
+                <a href="#" class="button" v-show="item.length>1"@click.prevent="delResume(item,tab)">删除</a>
             </li>
         </ol>
     </div>
@@ -30,6 +30,38 @@
 <script>
 export default {
     name: 'ResumeEditor',
+    data(){
+        return {
+             names: {
+                'profile': {
+                    'name': '姓名',
+                    'city': '城市',
+                    'title': '职业',
+                    'birthday': '生日'
+                },
+                'workHistory': {
+                    'company': '公司名称',
+                    'details': '描述'
+                },
+                'education': {
+                    'school': '学校名称',
+                    'details': '描述'
+                },
+                'projects': {
+                    'name': '项目名称',
+                    'details': '描述'
+                },
+                'awards': {
+                    'name': '奖项名称',
+                    'details': '描述'
+                },
+                'contacts': {
+                    'contact': '联系方式',
+                    'content': '具体内容'
+                }
+            }
+        }
+    },
     computed: {
         selected: {
             get(){
@@ -48,7 +80,7 @@ export default {
     },
     methods: {
         changeResumeField(path, value){
-            this.$store.commit('updateResume',{
+            this.$store.dispatch('update',{
                 path,
                 value
             })

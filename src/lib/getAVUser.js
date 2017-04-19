@@ -1,6 +1,6 @@
 import AV from './leancloud'
 
-export default function(user){
+export default function(){
     let current = AV.User.current()
     if (current) {
         let {id,attributes:{username}} = current;
