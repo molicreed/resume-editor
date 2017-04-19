@@ -1,16 +1,16 @@
 <template>
-    <div>
+    <div class="sign">
         <form @submit.prevent="signIn">
             <div class="row">
-                <label for="">用户名</label>
+                <label for="">用户名:</label>
                 <input type="text" v-model="formData.username" required>
             </div>
             <div class="row">
-                <label for="">密码</label>
+                <label for="">密码:</label>
                 <input type="password" v-model="formData.password" required>
             </div>
             <div class="actions">
-                <input type="submit" value="提交">
+                <input class="button primary" type="submit" value="登录">
                 <span>{{errorMessage}}</span>
             </div>
         </form>
@@ -37,6 +37,10 @@
             signIn(){
                 let {username,password} = this.formData;
                 AV.User.logIn(username,password).then(()=>{
+                    this.formData = {
+                        username: '',
+                        password: ''
+                    };
                     this.$emit('success',getAVUser())
                 },(error)=>{
                     this.errorMessage = getErrorMessage(error);
@@ -45,3 +49,4 @@
         }
     }
 </script>
+

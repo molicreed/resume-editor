@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div  class="sign">
         <form @submit.prevent="signUp">
             <div class="row">
                 <label for="">用户名</label>
@@ -10,7 +10,7 @@
                 <input type="password" v-model="formData.password" required>
             </div>
             <div class="actions">
-                <input type="submit" value="提交">
+                <input class="button primary"type="submit" value="提交">
                 <span class="errorMessage">{{errorMessage}}</span>
             </div>
         </form>
@@ -43,6 +43,10 @@
                 user.setUsername(username);
                 user.setPassword(password);
                 user.signUp().then(()=>{
+                    this.formData = {
+                        username: '',
+                        password: ''
+                    };
                     this.$emit('success', getAVUser())
                 }),(error)=>{
                     this.errorMessage = getErrorMessage(error);
@@ -51,3 +55,19 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .sign {
+        .row {
+            display: flex;
+            margin-bottom: .5em;
+            label {
+                margin-right: .5em;
+                flex: 0.3;
+            }
+            input {
+                flex: 0.7;
+            }
+        }
+    }
+</style>

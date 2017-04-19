@@ -40,7 +40,7 @@
         align-items: center;
         >.dialog {
             background: white;
-            min-height: 4em;
+            min-height: 5em;
             min-width: 10em;
             >header {
                 padding: 16px;

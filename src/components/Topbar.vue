@@ -63,6 +63,28 @@ export default {
 </script>
 
 <style lang="scss">
+    .button {
+        width: 72px;
+        height: 32px;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        background: #ddd;
+        color: #222;
+        text-decoration: none;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        margin-right: .5em;
+        &:hover {
+            box-shadow: 1px 1px 1px hsla(0, 0, 0, 0.50);
+        }
+        &.primary {
+            background: #02af5f;
+            color: #fff;
+        }
+    }
     #topbar {
     background: #fff;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
@@ -81,28 +103,7 @@ export default {
                 font-size: 24px;
                 color: #000;
             }
-            .button {
-                width: 72px;
-                height: 32px;
-                border: none;
-                cursor: pointer;
-                font-size: 20px;
-                background: #ddd;
-                color: #222;
-                text-decoration: none;
-                display: inline-flex;
-                justify-content: center;
-                align-items: center;
-                vertical-align: middle;
-                margin-right: .5em;
-                &:hover {
-                    box-shadow: 1px 1px 1px hsla(0, 0, 0, 0.50);
-                }
-                &.primary {
-                    background: #02af5f;
-                    color: #fff;
-                }
-            }
+            
         }
     }
 }
