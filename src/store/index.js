@@ -6,9 +6,11 @@ import getStorage from '../lib/getStorage'
 
 Vue.use(Vuex)
 
+
 export default new Vuex.Store({
     state: {
         selected: 'workHistory',
+        isSaved: 'true',
         user: {
             id: '',
             username: '',
@@ -52,26 +54,30 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        saveTodos({state,commit}){
+            saveStorage(state.resume, state.user.objectId)
+                .then((val)=>{
+                    commit('updateSaveCondition',true);
+                    console.log('update Success! ObjectId is',val.id)
+                });
+        },
         update({state,commit},{path,value}){
-            commit('updateResume',{path,value})
-            if (state.user.id) {
-                saveStorage(state.resume, state.user.objectId)
+            commit('updateResume',{path,value}) 
+            commit('updateSaveCondition',false);      
+        },
+        setUser({state,commit},user){
+            getStorage().then(({content,objId})=>{
+                user.objectId = objId;
+                commit('SET',{user,content});
+            },()=>{
+                commit('SET',{user});
+                commit('initState');
+                saveStorage({},false)
                     .then((val)=>{
                         commit('setObjId',val.id);
-                        console.log('Success! ObjectId is',val.id)
                     });
-            }
-        },
-        setUser(context,user){
-            console.log(user);
-            getStorage().then(({content,objId})=>{
-                console.log(content,objId);  
-                user.objectId = objId;
-                context.commit('SET',{user,content});
-            },()=>{
-                context.commit('SET',{user});
-                context.commit('initState');
-            })
+            })   
+            
         },
         removeAll(context){
             let user = {
@@ -122,6 +128,9 @@ export default new Vuex.Store({
         },
         updateResume(state,{path,value}){
             objectPath.set(state.resume, path, value);
+        },
+        updateSaveCondition(state,bool){
+            state.isSaved = bool;
         }
     }
 })

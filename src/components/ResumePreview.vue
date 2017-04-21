@@ -1,12 +1,14 @@
 <template>
     <div id="resumePreview">
         <section data-name="profile" v-show="resume.profile">
-            <h1>{{resume.profile[0].name}}</h1>
-            <h2>{{resume.profile[0].title}}</h2>
-            <p>
-                <small>{{resume.profile[0].city}}</small>
-                <small>{{resume.profile[0].birthday}}</small>
-            </p>
+            <div v-for="item in resume.profile">
+                <h1>{{item.name}}</h1>
+                <h2>{{item.title}}</h2>
+                <p>
+                    <small>{{item.city}}</small>
+                    <small>{{item.birthday}}</small>
+                </p>
+            </div>
         </section>
         <section data-name="workHistory" v-show="resume.workHistory">
             <h2>工作经历</h2>
@@ -19,35 +21,35 @@
                 </li>
             </ol>
         </section>
-        <section data-name="education" v-show="resume.education.length>0">
+        <section data-name="education" v-show="resume.education">
             <h2>毕业院校</h2>
             <ol>
                 <li v-for="item in resume.education" v-show="item.school!==''">
                     <h3 v-show="item.school">{{item.school}}</h3>
-                    <p v-show="item.content"> - {{item.details}}</p>
+                    <p v-show="item.details"> - {{item.details}}</p>
                 </li>
             </ol>
         </section>
-        <section data-name="projects" v-show="resume.projects.length>0">
+        <section data-name="projects" v-show="resume.projects">
             <h2>项目经历</h2>
             <ol>
                 <li v-for="item in resume.projects">
                     <h3 v-show="item.name">{{item.name}}</h3>
-                    <p v-show="item.content"> {{item.details}} </p>
+                    <p v-show="item.details"> {{item.details}} </p>
                 </li>
             </ol>
         </section>
-        <section data-name="awards" v-show="resume.awards.length>0">
+        <section data-name="awards" v-show="resume.awards">
             <h2>获奖情况</h2>
             <ol>
                 <li v-for="item in resume.awards">
                     <h3 v-show="item.name">{{item.name}}</h3>
-                    <p v-show="item.content"> {{item.details}} </p>
+                    <p v-show="item.details"> {{item.details}} </p>
                 </li>
             </ol>
         </section>
     
-        <section data-name="contacts" v-show="resume.contacts.length>0">
+        <section data-name="contacts" v-show="resume.contacts">
             <h2>联系方式</h2>
             <table>
                 <tr v-for="item in resume.contacts">

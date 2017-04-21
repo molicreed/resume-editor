@@ -5,6 +5,7 @@
                 <span class="welcome">Hello! {{user.username}}</span>
                 <a href="#" class="button"
                     @click.prevent="signOut">登出</a>
+                <span v-show="isSaved">已保存</span>
             </div>
             <div v-else class="userActions" >
                 <span class="logo">在线简历编辑器</span>
@@ -33,13 +34,26 @@ import AV from '../lib/leancloud'
 
 export default {
     name: 'Topbar',
+    created(){
+        console.log('will setInterval')
+        setInterval(()=>{
+            if (this.$store.state.user.id){
+                console.log('will saveTodos')
+                this.$store.dispatch('saveTodos');
+            }
+        },60000);
+    },
     data(){
         return {
+            saveClock: '',
             signUpDialogVisible: false,
             signInDialogVisible: false,
         }
     },
     computed: {
+        isSaved(){
+            return this.$store.state.isSaved;
+        },
         user(){
             return this.$store.state.user;
         },
@@ -52,7 +66,7 @@ export default {
         signIn(user){
             this.$store.dispatch('setUser',user);
             this.signUpDialogVisible = false;
-            this.signInDialogVisible = false;
+            this.signInDialogVisible = false;       
         },
         signOut(user){
             AV.User.logOut();
@@ -98,6 +112,7 @@ export default {
         padding: 0 16px; 
         .userActions {
             display: flex;
+            align-items: center;
             .welcome, .logo {
                 margin-right: 1em;
                 font-size: 24px;
