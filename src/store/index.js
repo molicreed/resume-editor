@@ -59,6 +59,9 @@ export default new Vuex.Store({
                 .then((val)=>{
                     commit('updateSaveCondition',true);
                     console.log('update Success! ObjectId is',val.id)
+                },(err)=>{
+                    commit('updateSaveCondition','wrong');
+                    console.error('update data wrong');
                 });
         },
         update({state,commit},{path,value}){

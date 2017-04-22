@@ -6,6 +6,7 @@
                 <a href="#" class="button"
                     @click.prevent="signOut">登出</a>
                 <span v-show="isSaved">已保存</span>
+                <span class="error" v-show="isSaved === 'wrong'">保存失败，请检查网络是否正常</span>
             </div>
             <div v-else class="userActions" >
                 <span class="logo">在线简历编辑器</span>
@@ -110,6 +111,9 @@ export default {
         justify-content: space-between;
         align-items: center;
         padding: 0 16px; 
+        .error {
+            color: red;
+        }
         .userActions {
             display: flex;
             align-items: center;
