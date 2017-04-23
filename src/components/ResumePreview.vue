@@ -10,7 +10,7 @@
                 </p>
             </div>
         </section>
-        <section data-name="workHistory" v-show="resume.workHistory">
+        <section data-name="workHistory" v-show="ifNotEmpty(resume.workHistory,'company')">
             <h2>工作经历</h2>
             <ol>
                 <li v-for="item in resume.workHistory">
@@ -21,7 +21,7 @@
                 </li>
             </ol>
         </section>
-        <section data-name="education" v-show="resume.education">
+        <section data-name="education" v-show="ifNotEmpty(resume.education,'school')">
             <h2>毕业院校</h2>
             <ol>
                 <li v-for="item in resume.education" v-show="item.school!==''">
@@ -30,7 +30,7 @@
                 </li>
             </ol>
         </section>
-        <section data-name="projects" v-show="resume.projects">
+        <section data-name="projects" v-show="ifNotEmpty(resume.projects,'name')">
             <h2>项目经历</h2>
             <ol>
                 <li v-for="item in resume.projects">
@@ -39,7 +39,7 @@
                 </li>
             </ol>
         </section>
-        <section data-name="awards" v-show="resume.awards">
+        <section data-name="awards" v-show="ifNotEmpty(resume.awards,'name')">
             <h2>获奖情况</h2>
             <ol>
                 <li v-for="item in resume.awards">
@@ -49,7 +49,7 @@
             </ol>
         </section>
     
-        <section data-name="contacts" v-show="resume.contacts">
+        <section data-name="contacts" v-show="ifNotEmpty(resume.contacts,'contact')">
             <h2>联系方式</h2>
             <table>
                 <tr v-for="item in resume.contacts">
@@ -67,6 +67,16 @@ export default {
     computed: {
         resume(){
             return this.$store.state.resume;
+        }
+    },
+    methods: {
+        ifNotEmpty(arr,key){
+            for (let ct of arr){
+                if (ct[key]){
+                    return true
+                }
+            }
+            return false;
         }
     }
 }
