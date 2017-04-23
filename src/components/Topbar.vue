@@ -33,15 +33,13 @@ import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
 import AV from '../lib/leancloud'
 
-const SaveInterval = 300000;
+const SaveInterval = 12000;
 
 export default {
     name: 'Topbar',
     created(){
-        console.log('will setInterval')
         setInterval(()=>{
-            if (this.$store.state.user.id){
-                console.log('will saveTodos')
+            if (this.$store.state.user.id && !this.$store.state.isSaved){
                 this.$store.dispatch('saveTodos');
             }
         },SaveInterval);

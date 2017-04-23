@@ -64,14 +64,20 @@
 <script>
 export default {
     name: 'ResumePreview',
+    created() {
+        console.log('resumePreview succsss');
+    },
     computed: {
         resume(){
+            console.log('resume',this.$store.state.resume);
             return this.$store.state.resume;
         }
     },
     methods: {
         ifNotEmpty(arr,key){
+            if (!arr) {return false;}
             for (let ct of arr){
+                
                 if (ct[key]){
                     return true;
                 }
