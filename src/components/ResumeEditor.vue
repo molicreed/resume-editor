@@ -20,8 +20,8 @@
                             @input="changeResumeField([tab,subTab,key],$event.target.value)">
                     </div> 
                 </div>
-                <a href="#" class="button" v-show="tab!=='profile'"@click.prevent="addResume(item,tab)">增加</a>
-                <a href="#" class="button" v-show="item.length>1"@click.prevent="delResume(item,tab)">删除</a>
+                <a href="#" class="button" v-show="tab!=='profile'"@click.prevent="addResume(tab)">增加</a>
+                <a href="#" class="button" v-show="item.length>1"@click.prevent="delResume(tab)">删除</a>
             </li>
         </ol>
     </div>
@@ -85,11 +85,11 @@ export default {
                 value
             })
         },
-        addResume(item,tab){
-            this.$store.commit('addData',{item,tab})
+        addResume(tab){
+            this.$store.commit('addData',tab)
         },
-        delResume(item,tab){
-            this.$store.commit('delData',{item,tab})
+        delResume(tab){
+            this.$store.commit('delData',tab)
         }
     }
 }

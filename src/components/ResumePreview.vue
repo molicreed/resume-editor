@@ -16,7 +16,7 @@
                 <li v-for="item in resume.workHistory">
                     <div v-show="item.company">
                         <h3>{{item.company}}</h3>
-                        <p> - {{item.details}}</p>
+                        <p v-show="item.details"> - {{item.details}}</p>
                     </div>
                 </li>
             </ol>
@@ -35,7 +35,7 @@
             <ol>
                 <li v-for="item in resume.projects">
                     <h3 v-show="item.name">{{item.name}}</h3>
-                    <p v-show="item.details"> {{item.details}} </p>
+                    <p v-show="item.details"> - {{item.details}} </p>
                 </li>
             </ol>
         </section>
@@ -44,7 +44,7 @@
             <ol>
                 <li v-for="item in resume.awards">
                     <h3 v-show="item.name">{{item.name}}</h3>
-                    <p v-show="item.details"> {{item.details}} </p>
+                    <p v-show="item.details"> - {{item.details}} </p>
                 </li>
             </ol>
         </section>
@@ -73,7 +73,7 @@ export default {
         ifNotEmpty(arr,key){
             for (let ct of arr){
                 if (ct[key]){
-                    return true
+                    return true;
                 }
             }
             return false;

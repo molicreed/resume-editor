@@ -33,6 +33,8 @@ import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
 import AV from '../lib/leancloud'
 
+const SaveInterval = 300000;
+
 export default {
     name: 'Topbar',
     created(){
@@ -42,7 +44,7 @@ export default {
                 console.log('will saveTodos')
                 this.$store.dispatch('saveTodos');
             }
-        },60000);
+        },SaveInterval);
     },
     data(){
         return {

@@ -96,19 +96,19 @@ export default new Vuex.Store({
         initState (state){
             state.resume = {};
             state.config.map((item)=>{
-                Vue.set(state.resume, item.field, [{}]);
+                Vue.set(state.resume,item.field,[{}]);
                 item.keys.map((key)=>{
                     Vue.set(state.resume[item.field][0],key,'');
                 });
             });
         },
-        addData (state,{item,tab}){
-            let len = item.length;
-            item.push({});
+        addData (state,tab){
+            let len = state.resume[tab].length;
+            state.resume[tab] = [...state.resume[tab],{}];
             state.config.map((val)=>{
                 if (val.field === tab){
                     val.keys.map((key)=>{
-                        Vue.set(item[len],key,'');
+                        Vue.set(state.resume[tab][len],key,'');
                     });
                 }
             })
@@ -116,8 +116,8 @@ export default new Vuex.Store({
         setObjId(state,objId){
             state.user.objectId = objId;
         },
-        delData (state,{item,tab}){
-            item.pop();
+        delData (state,tab){
+            state.resume[tab].pop();
         },
         switchTab (state,val){
             state.selected = val;
